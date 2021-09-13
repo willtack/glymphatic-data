@@ -1,1 +1,0 @@
-this directory contains a subset of data pertaining to most interesting scalars
