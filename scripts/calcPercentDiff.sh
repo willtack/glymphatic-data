@@ -3,7 +3,7 @@
 # Calulate difference and percent change maps for diffusion scalars at baseline vs sleep
 #
 
-dataDir=~/Projects/glymph/data3
+dataDir=~/Projects/glymph/data
 
 # main loop
 for modelDir in "${dataDir}"/*; do

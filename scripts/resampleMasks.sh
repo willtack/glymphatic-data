@@ -4,7 +4,7 @@
 #
 
 dataDir="/home/will/Projects/glymph/rois"
-
+cd $dataDir
 for roi in ${dataDir}/*_roi.nii.gz; do
   roiName=$(echo $(basename $roi) | cut -d '_' -f 1)
   echo $roiName

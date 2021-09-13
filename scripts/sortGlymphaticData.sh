@@ -8,57 +8,58 @@
 # MAPLMRI_MNI.zip: Laplacian-regularized MAPMRI scalars. These have a bunch of propagator metrics like RTOP, RTAP, RTPP, MSD and QIV.
 
 
-dataDir=~/Projects/glymph/data3
+rawDataDir=~/Projects/glymph/rawdata
+dataDir=~/Projects/glymph/data
 
 rm $(find -type f | grep template)
 
 # start with GQI
-for f in "${dataDir}"/GQI_MNI/MNI/*; do
+for f in "${rawDataDir}"/GQI_MNI/MNI/*; do
   echo $f
   newbasename="$(echo $(basename $f) | sed -e 's/sphere.*x//')" # sort by timestamp, not series no
   newfile=$(dirname $f)/$newbasename
-  mv $f $newfile
+  cp $f $newfile
   contrast=$(echo $newfile | cut -d '-' -f 8 | cut -d '_' -f 1)
   subject=$(echo $newfile | cut -d '-' -f 2 | cut -d '_' -f 1)
   subjectDir="${dataDir}/GQI/${contrast}/sub-${subject}"
   mkdir -p ${subjectDir}
-  cp $newfile ${subjectDir}/
+  mv $newfile ${subjectDir}/
 done
 
 # MAPLMRI_MNI
-for f in "${dataDir}"/MAPLMRI_MNI/MNI/*; do
+for f in "${rawDataDir}"/MAPLMRI_MNI/MNI/*; do
   newbasename="$(echo $(basename $f) | sed -e 's/sphere.*x//')" # sort by timestamp, not series no
   newfile=$(dirname $f)/$newbasename
-  mv $f $newfile
+  cp $f $newfile
   contrast=$(echo $newfile| cut -d '-' -f 8 | cut -d '_' -f 1)
   subject=$(echo $newfile | cut -d '-' -f 2 | cut -d '_' -f 1)
   subjectDir="${dataDir}/MPALMRI/${contrast}/sub-${subject}"
   mkdir -p ${subjectDir}
-  cp $newfile ${subjectDir}/
+  mv $newfile ${subjectDir}/
 done
 
 # NODDIGM_MNI
-for f in "${dataDir}"/NODDIGM_MNI/MNI/*; do
+for f in "${rawDataDir}"/NODDIGM_MNI/MNI/*; do
   newbasename="$(echo $(basename $f) | sed -e 's/sphere.*x//')" # sort by timestamp, not series no
   newfile=$(dirname $f)/$newbasename
-  mv $f $newfile
+  cp $f $newfile
   contrast=$(echo $newfile | cut -d '-' -f 8 | cut -d '_' -f 1)
   subject=$(echo $newfile | cut -d '-' -f 2 | cut -d '_' -f 1)
   subjectDir="${dataDir}/NODDIGM/${contrast}/sub-${subject}"
   mkdir -p ${subjectDir}
-  cp $newfile ${subjectDir}/
+  mv $newfile ${subjectDir}/
 done
 
 # NODDIWM_MNI
-for f in "${dataDir}"/NODDIWM_MNI/MNI/*; do
+for f in "${rawDataDir}"/NODDIWM_MNI/MNI/*; do
   newbasename="$(echo $(basename $f) | sed -e 's/sphere.*x//')" # sort by timestamp, not series no
   newfile=$(dirname $f)/$newbasename
-  mv $f $newfile
+  cp $f $newfile
   contrast=$(echo $newfile | cut -d '-' -f 8 | cut -d '_' -f 1)
   subject=$(echo $newfile | cut -d '-' -f 2 | cut -d '_' -f 1)
   subjectDir="${dataDir}/NODDIWM/${contrast}/sub-${subject}"
   mkdir -p ${subjectDir}
-  cp $newfile ${subjectDir}/
+  mv $newfile ${subjectDir}/
 done
 
 # remove unnecessary folders
@@ -84,8 +85,8 @@ divideFolder(){
 
   # exception case AC4907
   subname=$(basename "${subjectDir}")
-  # if [[ $subname == AC4907 ]]; then
-  #    pushd "${subjectDir}"; mv subdir2/* hex/; rmdir subdir2; fi
+  if [[ $subname == sub-AC4907 ]]; then
+     pushd "${subjectDir}"; mv subdir2/* hex/; rmdir subdir2; fi
 }
 
 # main loop
@@ -96,13 +97,13 @@ for modelDir in "${dataDir}"/*; do
     for subjectDir in "${scalarDir}"/*; do
       subjectName=$(basename "${subjectDir}")
       case $subjectName in
-        AC4907 ) divideFolder $subjectDir 4
+        sub-AC4907 ) divideFolder $subjectDir 4
           ;;
-        KP5509 ) divideFolder $subjectDir 4
+        sub-KP5509 ) divideFolder $subjectDir 4
           ;;
-        LPV0000 ) divideFolder $subjectDir 4
+        sub-LPV0000 ) divideFolder $subjectDir 4
           ;;
-        OW7586 ) divideFolder $subjectDir 8
+        sub-OW7586 ) divideFolder $subjectDir 8
           ;;
         *) divideFolder $subjectDir 6
       esac
