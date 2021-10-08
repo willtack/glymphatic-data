@@ -3,7 +3,7 @@
 # Resample masks to be compatible with glymph data
 #
 
-dataDir="/home/will/Projects/glymph/rois"
+dataDir="/home/will/Projects/glymphatic-data/rois"
 cd $dataDir
 for roi in ${dataDir}/*_roi.nii.gz; do
   roiName=$(echo $(basename $roi) | cut -d '_' -f 1)
